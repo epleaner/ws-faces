@@ -10,6 +10,7 @@ function detectMax() {
 
 let s = function (p) {
   let ws;
+  let wsConnected = false;
 
   let maxIsDetected = detectMax();
 
@@ -85,10 +86,21 @@ let s = function (p) {
 
   function setupWs() {
     console.log('Attempting to establish ws connection');
-    const wsUrl = 'wss://ws-fun.herokuapp.com/:80';
+
+    // const url = 'localhost';
+    // const port = 3030;
+    // const protocol = 'ws';
+
+    const url = 'ws-fun.herokuapp.com/';
+    const port = 80;
+    const protocol = 'wss';
+
+    const wsUrl = `${protocol}://${url}:${port}`;
+
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
+      wsConnected = true;
       console.log('ws connection established');
     };
 
@@ -157,6 +169,10 @@ let s = function (p) {
 
       ws.send(JSON.stringify({ drawColor, positions }), { binary: true });
     }
+
+    p.noStroke();
+    wsConnected ? p.fill('green') : p.fill('red');
+    p.circle(25, 25, 5);
 
     if (maxIsDetected) {
       window.max.outlet('status', p.frameCount, p.mouseIsPressed);

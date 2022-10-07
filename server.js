@@ -1,13 +1,11 @@
 import http from 'http';
-
-import express from 'express';
 import WebSocket, { WebSocketServer } from 'ws';
 
 const httpServer = http.createServer();
-const wsPort = process.env.PORT || 80;
+const wsPort = process.env.PORT || 3030;
 
 httpServer.listen(wsPort, function () {
-  console.log('Server is listening on port ' + wsPort);
+  console.log('listening on port ' + wsPort);
 });
 
 const wss = new WebSocketServer({
