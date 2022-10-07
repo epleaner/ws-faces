@@ -1,26 +1,19 @@
-import http from 'http';
-
 import express from 'express';
 import WebSocket, { WebSocketServer } from 'ws';
 
-const httpServer = http.createServer();
-const wsPort = process.env.PORT || 80;
+const app = express();
+app.use(express.static('html'));
 
-httpServer.listen(wsPort, function () {
-  console.log('Server is listening on port ' + wsPort);
-});
+const port = process.env.PORT || 3000;
+const wsPort = process.env.WS_PORT || 3030;
 
-const wss = new WebSocketServer({
-  server: httpServer,
-});
-
-// const wss = new WebSocketServer({ port: wsPort, clientTracking: true });
+const wss = new WebSocketServer({ port: wsPort, clientTracking: true });
 const connections = [];
 
-// app.listen(port, () => {
-//   console.log(`express server on ${port}`);
-//   console.log(`ws server on ${wsPort}`);
-// });
+app.listen(port, () => {
+  console.log(`express server on ${port}`);
+  console.log(`ws server on ${wsPort}`);
+});
 
 //Listen for connections on the websocket
 wss.on('connection', (ws) => {

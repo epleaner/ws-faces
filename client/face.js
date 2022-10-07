@@ -85,7 +85,7 @@ let s = function (p) {
 
   function setupWs() {
     console.log('Attempting to establish ws connection');
-    const wsUrl = 'ws://localhost:3030';
+    const wsUrl = 'ws://localhost/:80';
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
