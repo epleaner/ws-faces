@@ -107,7 +107,10 @@ let s = function (p) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-      drawFace(data.positions, data.drawColor);
+      console.log(data);
+      if (data.type === 'id') ws.id = data.id;
+      else if (data.type === 'lipCoordinates')
+        drawFace(data.positions, data.drawColor);
     };
   }
 
@@ -167,7 +170,18 @@ let s = function (p) {
       sketchData.upperLipY = positions[60][1];
       sketchData.lowerLipY = positions[57][1];
 
-      ws.send(JSON.stringify({ drawColor, positions }), { binary: true });
+      ws.send(
+        JSON.stringify({
+          type: 'lipCoordinates',
+          id: ws.id,
+          drawColor,
+          positions,
+          a: [
+            [1, 2],
+            [3, 4],
+          ],
+        })
+      );
     }
 
     p.noStroke();
