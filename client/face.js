@@ -87,13 +87,13 @@ let s = function (p) {
   function setupWs() {
     console.log('Attempting to establish ws connection');
 
-    // const url = 'localhost';
-    // const port = 3030;
-    // const protocol = 'ws';
+    const url = 'localhost';
+    const port = 3030;
+    const protocol = 'ws';
 
-    const url = 'ws-fun.herokuapp.com/';
-    const port = 80;
-    const protocol = 'wss';
+    // const url = 'ws-fun.herokuapp.com/';
+    // const port = 80;
+    // const protocol = 'wss';
 
     const wsUrl = `${protocol}://${url}:${port}`;
 
@@ -107,7 +107,6 @@ let s = function (p) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-      console.log(data);
       if (data.type === 'id') ws.id = data.id;
       else if (data.type === 'lipCoordinates')
         drawFace(data.positions, data.drawColor);
@@ -162,6 +161,7 @@ let s = function (p) {
     p.background(0, 25);
 
     currentPositions = ctracker.getCurrentPosition();
+
     if (currentPositions) lastPositions = currentPositions;
     let positions = currentPositions || lastPositions;
 
@@ -176,10 +176,8 @@ let s = function (p) {
           id: ws.id,
           drawColor,
           positions,
-          a: [
-            [1, 2],
-            [3, 4],
-          ],
+          upperLipY: positions[60][1],
+          lowerLipY: positions[57][1],
         })
       );
     }

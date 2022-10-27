@@ -33,9 +33,12 @@ const connect = () => {
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    Max.post(data);
+    // Max.post(data);
 
-    if (data.type === 'lipCoordinates') Max.outlet(data);
+    if (data.type === 'lipCoordinates') {
+      data.positions = Object.assign({}, data.positions);
+      Max.outlet(data);
+    }
   };
 
   ws.onclose = () => {

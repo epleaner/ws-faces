@@ -1,6 +1,6 @@
-import http from 'http';
-import WebSocket, { WebSocketServer } from 'ws';
-import { v4 as uuidv4 } from 'uuid';
+const http = require('http');
+const WebSocket = require('ws');
+const uuid = require('uuid');
 
 const httpServer = http.createServer();
 const wsPort = process.env.PORT || 3030;
@@ -9,14 +9,14 @@ httpServer.listen(wsPort, function () {
   console.log('listening on port ' + wsPort);
 });
 
-const wss = new WebSocketServer({
+const wss = new WebSocket.WebSocketServer({
   server: httpServer,
   clientTracking: true,
 });
 
 //Listen for connections on the websocket
 wss.on('connection', (ws) => {
-  ws.id = uuidv4();
+  ws.id = uuid.v4();
 
   console.log(`new connection (id ${ws.id}) | ${wss.clients.size} clients`);
 
