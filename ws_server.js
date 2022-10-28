@@ -2,6 +2,15 @@ const http = require('http');
 const WebSocket = require('ws');
 const uuid = require('uuid');
 
+let Max;
+
+try {
+  Max = require('max-api');
+  console.log('Max loaded');
+} catch (e) {
+  console.log('No max');
+}
+
 const httpServer = http.createServer();
 const wsPort = process.env.PORT || 3030;
 
@@ -34,3 +43,5 @@ wss.on('connection', (ws) => {
     console.log(`connection closed | ${wss.clients.size} clients`)
   );
 });
+
+Max.outlet('ws_ready');
