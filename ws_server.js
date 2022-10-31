@@ -31,6 +31,12 @@ wss.on('connection', (ws) => {
 
   ws.send(JSON.stringify({ type: 'id', id: ws.id }));
 
+  wss.clients.forEach(function each(client) {
+    if (client !== ws && client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ type: 'clientConnected', id: ws.id }));
+    }
+  });
+
   ws.on('message', function message(data, isBinary) {
     wss.clients.forEach(function each(client) {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -39,9 +45,15 @@ wss.on('connection', (ws) => {
     });
   });
 
-  ws.on('close', () =>
-    console.log(`connection closed | ${wss.clients.size} clients`)
-  );
+  ws.on('close', () => {
+    console.log(`connection closed | ${wss.clients.size} clients`);
+
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: 'clientDisconnected', id: ws.id }));
+      }
+    });
+  });
 });
 
 Max.outlet('ws_ready');
