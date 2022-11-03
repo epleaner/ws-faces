@@ -56,4 +56,4 @@ wss.on('connection', (ws) => {
   });
 });
 
-Max.outlet('ws_ready');
+if (Max) Max.outlet('ws_ready');

@@ -4,7 +4,7 @@
   "main": "page_connect.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "http-server"
+    "serve": "http-server -c-1"
   },
   "keywords": [],
   "author": "",

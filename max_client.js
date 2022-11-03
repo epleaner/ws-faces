@@ -23,7 +23,7 @@ console.log('Attempting to establish ws connection');
 let wsConnected, ws;
 let restartInterval = 5000;
 
-let lipCoordinates = {};
+let coordinates = {};
 
 const connect = () => {
   ws = new WebSocket(wsUrl);
@@ -39,11 +39,24 @@ const connect = () => {
     switch (data.type) {
       case 'lipCoordinates': {
         data.positions = Object.assign({}, data.positions);
-        lipCoordinates[data.id] = {
+        coordinates[data.id] = {
           upperLipY: data.upperLipY,
           lowerLipY: data.lowerLipY,
+          type: 'lipCoordinates',
         };
-        Max.outlet({ type: 'lipCoordinates', data: lipCoordinates });
+        Max.outlet({ type: 'coordinates', data: coordinates });
+        break;
+      }
+      case 'handCoordinates': {
+        coordinates[data.id] = {
+          positions: data.positions,
+          type: 'handCoordinates',
+        };
+
+        Max.outlet({
+          type: 'coordinates',
+          data: coordinates,
+        });
         break;
       }
       case 'clientConnected': {
@@ -51,7 +64,7 @@ const connect = () => {
         break;
       }
       case 'clientDisconnected': {
-        delete lipCoordinates[data.id];
+        delete coordinates[data.id];
         Max.outlet({ type: 'clientDisconnected', data });
         break;
       }
