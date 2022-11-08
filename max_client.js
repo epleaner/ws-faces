@@ -40,8 +40,7 @@ const connect = () => {
       case 'lipCoordinates': {
         data.positions = Object.assign({}, data.positions);
         coordinates[data.id] = {
-          upperLipY: data.upperLipY,
-          lowerLipY: data.lowerLipY,
+          positions: { upperLipY: data.upperLipY, lowerLipY: data.lowerLipY },
           type: 'lipCoordinates',
         };
         Max.outlet({ type: 'coordinates', data: coordinates });
@@ -59,6 +58,18 @@ const connect = () => {
         });
         break;
       }
+      case 'bodyCoordinates': {
+        coordinates[data.id] = {
+          positions: data.positions,
+          type: 'bodyCoordinates',
+        };
+
+        Max.outlet({
+          type: 'coordinates',
+          data: coordinates,
+        });
+        break;
+      }
       case 'clientConnected': {
         Max.outlet({ type: 'clientConnected', data });
         break;
@@ -67,6 +78,13 @@ const connect = () => {
         delete coordinates[data.id];
         Max.outlet({ type: 'clientDisconnected', data });
         break;
+      }
+      case 'id': {
+        Max.outlet({ type: 'wsId', data });
+        break;
+      }
+      default: {
+        Max.outlet({ type: 'unknownType', data });
       }
     }
   };
