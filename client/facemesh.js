@@ -30,8 +30,14 @@ let s = function (p) {
 
   let params = {
     ascii: false,
+    zoom: true,
     color: [p.random(0, 255), p.random(0, 255), p.random(0, 255)],
   };
+
+  let scaleFactor = 1;
+  let scaleMultiplier = 0.0002;
+  let scaleMin = 1;
+  let scaleMax = 7;
 
   p.setup = function () {
     p.createCanvas(innerWidth, innerHeight);
@@ -51,20 +57,23 @@ let s = function (p) {
     p.background(0, 25);
 
     if (predictions.length) {
-      drawKeypoints(predictions, params.color);
+      if (params.zoom) keypoints = scaleFromCenter();
+      else keypoints = predictions[0].scaledMesh;
 
-      if (wsConnected) {
-        let { keypoints, skeleton, score, ...data } = poses[0].pose;
+      drawKeypoints(keypoints, params.color);
 
-        ws.send(
-          JSON.stringify({
-            type: 'bodyCoordinates',
-            id: ws.id,
-            color: params.color,
-            positions: data,
-          })
-        );
-      }
+      // if (wsConnected) {
+      //   let { keypoints, skeleton, score, ...data } = poses[0].pose;
+
+      //   ws.send(
+      //     JSON.stringify({
+      //       type: 'bodyCoordinates',
+      //       id: ws.id,
+      //       color: params.color,
+      //       positions: data,
+      //     })
+      //   );
+      // }
     }
 
     drawStatus();
@@ -125,26 +134,22 @@ let s = function (p) {
     p.resizeCanvas(innerWidth, innerHeight);
   };
 
-  function drawKeypoints(predictions, color) {
-    for (let i = 0; i < predictions.length; i += 1) {
-      const keypoints = predictions[i].scaledMesh;
+  function drawKeypoints(keypoints, color) {
+    for (let j = 0; j < keypoints.length; j += 1) {
+      const [x, y] = keypoints[j];
 
-      for (let j = 0; j < keypoints.length; j += 1) {
-        const [x, y] = keypoints[j];
-
-        p.fill(color);
-        if (params.ascii)
-          p.text(
-            p.random(
-              '!@#$%^&*((()_+⁄€‹›ﬁﬂ‡°·‚——±{}|?><¯˘¿œ∑´®†¥¨ˆøπåß∂ƒ©≈∫˜µåß∂ƒ©'.split(
-                ''
-              )
-            ),
-            x,
-            y
-          );
-        else p.ellipse(x, y, 5, 5);
-      }
+      p.fill(color);
+      if (params.ascii)
+        p.text(
+          p.random(
+            '!@#$%^&*((()_+⁄€‹›ﬁﬂ‡°·‚——±{}|?><¯˘¿œ∑´®†¥¨ˆøπåß∂ƒ©≈∫˜µåß∂ƒ©'.split(
+              ''
+            )
+          ),
+          x,
+          y
+        );
+      else p.ellipse(x, y, 5, 5);
     }
   }
 
@@ -159,8 +164,37 @@ let s = function (p) {
 
   p.mouseClicked = function () {
     maxLog(predictions);
-    maxLog(params.color);
   };
+
+  function scaleFromCenter() {
+    let center = findCenter();
+
+    let scaledKeypoints = predictions[0].scaledMesh.map((keypoint) => {
+      let v = p.createVector(keypoint[0], keypoint[1]);
+      let v2 = v.sub(center);
+      let v2_scaled = v2.mult((scaleFactor += scaleMultiplier));
+      let v_scaled = v2_scaled.add(center);
+
+      return [v_scaled.x, v_scaled.y, keypoint[2]];
+    });
+
+    if (scaleFactor > scaleMax) scaleFactor = scaleMin;
+
+    return scaledKeypoints;
+  }
+
+  function findCenter() {
+    return predictions[0].scaledMesh
+      .reduce(
+        (p, c) => {
+          p[0] += c[0];
+          p[1] += c[1];
+          return p;
+        },
+        [0, 0]
+      )
+      .map((xy) => xy / predictions[0].scaledMesh.length);
+  }
 };
 
 let myp5 = new p5(s);
