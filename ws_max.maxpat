@@ -40,6 +40,42 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-24",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 298.0, 782.0, 72.0, 22.0 ],
+					"text" : "startwindow"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-18",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 393.5, 819.0, 35.0, 22.0 ],
+					"text" : "dac~"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "gain~",
+					"multichannelvariant" : 0,
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 393.5, 762.0, 169.0, 21.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontsize" : 12.0,
 					"id" : "obj-9",
 					"maxclass" : "message",
@@ -71,7 +107,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 465.5, 641.0, 50.0, 22.0 ],
-					"text" : "open 0"
+					"text" : "open 2"
 				}
 
 			}
@@ -132,13 +168,13 @@
 				"box" : 				{
 					"fontface" : 0,
 					"id" : "obj-34",
-					"linecount" : 104,
+					"linecount" : 14,
 					"maxclass" : "o.display",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 12.5, 523.0, 366.0, 1352.0 ],
-					"text" : "/39a134e3-5093-4c3b-9870-ced0cc1d4a37 : {\n  /positions : {\n    /leftKnee : {\n      /y : 866.049,\n      /confidence : 0.013811,\n      /x : 1077.94\n    },\n    /leftEye : {\n      /y : 247.759,\n      /confidence : 0.999313,\n      /x : 930.703\n    },\n    /rightShoulder : {\n      /y : 583.365,\n      /confidence : 0.304627,\n      /x : 372.093\n    },\n    /leftHip : {\n      /y : 900.03,\n      /confidence : 0.00967319,\n      /x : 1154.96\n    },\n    /rightAnkle : {\n      /y : 985.082,\n      /confidence : 0.00562451,\n      /x : 347.45\n    },\n    /nose : {\n      /y : 300.091,\n      /confidence : 0.999646,\n      /x : 852.269\n    },\n    /rightEar : {\n      /y : 263.191,\n      /confidence : 0.953483,\n      /x : 639.448\n    },\n    /leftWrist : {\n      /y : 844.451,\n      /confidence : 0.00868852,\n      /x : 1214.28\n    },\n    /rightKnee : {\n      /y : 838.387,\n      /confidence : 0.00393603,\n      /x : 315.613\n    },\n    /rightEye : {\n      /y : 235.552,\n      /confidence : 0.999314,\n      /x : 781.24\n    },\n    /leftElbow : {\n      /y : 825.488,\n      /confidence : 0.0365006,\n      /x : 1450.5\n    },\n    /rightHip : {\n      /y : 896.166,\n      /confidence : 0.00644819,\n      /x : 373.429\n    },\n    /leftShoulder : {\n      /y : 547.472,\n      /confidence : 0.461463,\n      /x : 1237.36\n    },\n    /rightWrist : {\n      /y : 873.168,\n      /confidence : 0.00407526,\n      /x : 302.73\n    },\n    /leftAnkle : {\n      /y : 990.326,\n      /confidence : 0.00658361,\n      /x : 1058.97\n    },\n    /leftEar : {\n      /y : 301.272,\n      /confidence : 0.848234,\n      /x : 1010.19\n    },\n    /rightElbow : {\n      /y : 986.334,\n      /confidence : 0.00108482,\n      /x : 139.657\n    }\n  },\n  /type : \"bodyCoordinates\"\n},\n/f61f9b7d-76db-4417-a6a9-07f997e95358 : {\n  /positions : {\n    /upperLipY : 76.8828,\n    /lowerLipY : 79.3783\n  },\n  /type : \"lipCoordinates\"\n},\n/88415cae-faef-436d-9546-0646da4bb456 : {\n  /positions : {\n    /upperLipY : 85.268,\n    /lowerLipY : 87.6887\n  },\n  /type : \"lipCoordinates\"\n}"
+					"patching_rect" : [ 12.5, 523.0, 366.0, 200.0 ],
+					"text" : "/5c504456-0e3d-4e66-911b-7adebb809fa0 : {\n  /positions : {\n    /upperLipY : 98.2118,\n    /lowerLipY : 103.059\n  },\n  /type : \"lipCoordinates\"\n},\n/e6c50e65-8745-4e5f-a933-98fc44976331 : {\n  /positions : {\n    /upperLipY : 98.5149,\n    /lowerLipY : 103.373\n  },\n  /type : \"lipCoordinates\"\n}"
 				}
 
 			}
@@ -216,13 +252,13 @@
 								"box" : 								{
 									"fontface" : 0,
 									"id" : "obj-2",
-									"linecount" : 104,
+									"linecount" : 14,
 									"maxclass" : "o.display",
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 92.0, 98.0, 674.0, 123.0 ],
-									"text" : "/39a134e3-5093-4c3b-9870-ced0cc1d4a37 : {\n  /positions : {\n    /leftKnee : {\n      /y : 866.049,\n      /confidence : 0.013811,\n      /x : 1077.94\n    },\n    /leftEye : {\n      /y : 247.759,\n      /confidence : 0.999313,\n      /x : 930.703\n    },\n    /rightShoulder : {\n      /y : 583.365,\n      /confidence : 0.304627,\n      /x : 372.093\n    },\n    /leftHip : {\n      /y : 900.03,\n      /confidence : 0.00967319,\n      /x : 1154.96\n    },\n    /rightAnkle : {\n      /y : 985.082,\n      /confidence : 0.00562451,\n      /x : 347.45\n    },\n    /nose : {\n      /y : 300.091,\n      /confidence : 0.999646,\n      /x : 852.269\n    },\n    /rightEar : {\n      /y : 263.191,\n      /confidence : 0.953483,\n      /x : 639.448\n    },\n    /leftWrist : {\n      /y : 844.451,\n      /confidence : 0.00868852,\n      /x : 1214.28\n    },\n    /rightKnee : {\n      /y : 838.387,\n      /confidence : 0.00393603,\n      /x : 315.613\n    },\n    /rightEye : {\n      /y : 235.552,\n      /confidence : 0.999314,\n      /x : 781.24\n    },\n    /leftElbow : {\n      /y : 825.488,\n      /confidence : 0.0365006,\n      /x : 1450.5\n    },\n    /rightHip : {\n      /y : 896.166,\n      /confidence : 0.00644819,\n      /x : 373.429\n    },\n    /leftShoulder : {\n      /y : 547.472,\n      /confidence : 0.461463,\n      /x : 1237.36\n    },\n    /rightWrist : {\n      /y : 873.168,\n      /confidence : 0.00407526,\n      /x : 302.73\n    },\n    /leftAnkle : {\n      /y : 990.326,\n      /confidence : 0.00658361,\n      /x : 1058.97\n    },\n    /leftEar : {\n      /y : 301.272,\n      /confidence : 0.848234,\n      /x : 1010.19\n    },\n    /rightElbow : {\n      /y : 986.334,\n      /confidence : 0.00108482,\n      /x : 139.657\n    }\n  },\n  /type : \"bodyCoordinates\"\n},\n/f61f9b7d-76db-4417-a6a9-07f997e95358 : {\n  /positions : {\n    /upperLipY : 76.8828,\n    /lowerLipY : 79.3783\n  },\n  /type : \"lipCoordinates\"\n},\n/88415cae-faef-436d-9546-0646da4bb456 : {\n  /positions : {\n    /upperLipY : 85.268,\n    /lowerLipY : 87.6887\n  },\n  /type : \"lipCoordinates\"\n}"
+									"text" : "/5c504456-0e3d-4e66-911b-7adebb809fa0 : {\n  /positions : {\n    /upperLipY : 98.2118,\n    /lowerLipY : 103.059\n  },\n  /type : \"lipCoordinates\"\n},\n/e6c50e65-8745-4e5f-a933-98fc44976331 : {\n  /positions : {\n    /upperLipY : 98.5149,\n    /lowerLipY : 103.373\n  },\n  /type : \"lipCoordinates\"\n}"
 								}
 
 							}
@@ -414,7 +450,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 114.000040666666791, 115.0, 286.0, 59.0 ],
-									"text" : "/id : \"a7d625aa-57b2-4af7-833f-a4cbf0c9e551\",\n/type : \"clientDisconnected\""
+									"text" : "/id : \"6c343744-5896-4754-a520-3620f38cf337\",\n/type : \"clientDisconnected\""
 								}
 
 							}
@@ -488,7 +524,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 774.5, 505.5, 278.0, 97.0 ],
-					"text" : "/data : {\n  /id : \"f6e5db5e-cb62-4bc0-ba10-9f191bfcaa0d\",\n  /type : \"id\"\n},\n/type : \"unknownType\""
+					"text" : "/data : {\n  /id : \"a4661aa4-17b7-4e80-aac0-1583668aaf4a\",\n  /type : \"id\"\n},\n/type : \"wsId\""
 				}
 
 			}
@@ -584,7 +620,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 114.0, 111.0, 395.0, 46.0 ],
-									"text" : "/id : \"88415cae-faef-436d-9546-0646da4bb456\",\n/type : \"clientConnected\""
+									"text" : "/id : \"e6c50e65-8745-4e5f-a933-98fc44976331\",\n/type : \"clientConnected\""
 								}
 
 							}
@@ -806,6 +842,8 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 0,
 						"defer" : 0,
+						"node_bin_path" : "",
+						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
@@ -881,8 +919,6 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 0,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 1
 					}
 ,
@@ -974,8 +1010,6 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 0,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 1
 					}
 ,
@@ -1045,6 +1079,22 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-18", 1 ],
+					"order" : 0,
+					"source" : [ "obj-17", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"order" : 1,
+					"source" : [ "obj-17", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-13", 0 ],
 					"source" : [ "obj-2", 0 ]
 				}
@@ -1078,6 +1128,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-14", 0 ],
 					"source" : [ "obj-23", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"source" : [ "obj-24", 0 ]
 				}
 
 			}
@@ -1145,6 +1202,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-20", 0 ],
 					"source" : [ "obj-4", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"source" : [ "obj-42", 0 ]
 				}
 
 			}
