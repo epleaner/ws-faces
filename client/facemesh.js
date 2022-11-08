@@ -31,6 +31,7 @@ let s = function (p) {
   let params = {
     ascii: false,
     zoom: true,
+    chaos: false,
     color: [p.random(0, 255), p.random(0, 255), p.random(0, 255)],
   };
 
@@ -48,13 +49,14 @@ let s = function (p) {
       document.getElementsByTagName('body')[0].style.overflow = 'hidden';
 
     gui = p.createGui(this, '🤖');
+    gui.setPosition(p.width - 250, 20);
     gui.addObject(params);
 
     p.background(0);
   };
 
   p.draw = function () {
-    p.background(0, 25);
+    p.background(0, 15);
 
     if (predictions.length) {
       if (params.zoom) keypoints = scaleFromCenter();
@@ -135,6 +137,8 @@ let s = function (p) {
   };
 
   function drawKeypoints(keypoints, color) {
+    p.push();
+    if (params.chaos) p.translate(p.random(0, p.width), p.random(0, p.height));
     for (let j = 0; j < keypoints.length; j += 1) {
       const [x, y] = keypoints[j];
 
@@ -149,8 +153,9 @@ let s = function (p) {
           x,
           y
         );
-      else p.ellipse(x, y, 5, 5);
+      else p.ellipse(x, y, 2, 2);
     }
+    p.pop();
   }
 
   function drawStatus() {
