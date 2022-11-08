@@ -32,13 +32,17 @@ let s = function (p) {
     ascii: false,
     zoom: true,
     chaos: false,
+    fireworks: true,
     color: [p.random(0, 255), p.random(0, 255), p.random(0, 255)],
   };
 
-  let scaleFactor = 1;
-  let scaleMultiplier = 0.0002;
-  let scaleMin = 1;
-  let scaleMax = 7;
+  let translationX = 0,
+    translationY = 0;
+
+  let scaleFactor = 1,
+    scaleMultiplier = 0.0002,
+    scaleMin = 1,
+    scaleMax = 7;
 
   p.setup = function () {
     p.createCanvas(innerWidth, innerHeight);
@@ -138,7 +142,13 @@ let s = function (p) {
 
   function drawKeypoints(keypoints, color) {
     p.push();
-    if (params.chaos) p.translate(p.random(0, p.width), p.random(0, p.height));
+    if (params.chaos) {
+      translationX = p.random(0, p.width - p.width / 4);
+      translationY = p.random(0, p.height - p.height / 4);
+    }
+
+    p.translate(translationX, translationY);
+
     for (let j = 0; j < keypoints.length; j += 1) {
       const [x, y] = keypoints[j];
 
@@ -183,7 +193,13 @@ let s = function (p) {
       return [v_scaled.x, v_scaled.y, keypoint[2]];
     });
 
-    if (scaleFactor > scaleMax) scaleFactor = scaleMin;
+    if (scaleFactor > scaleMax) {
+      scaleFactor = scaleMin;
+      if (params.fireworks) {
+        translationX = p.random(0, p.width - p.width / 4);
+        translationY = p.random(0, p.height - p.height / 4);
+      }
+    }
 
     return scaledKeypoints;
   }
