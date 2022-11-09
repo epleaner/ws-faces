@@ -14,17 +14,54 @@
         autoplay="true"
       />
     </div> -->
-    <div id="audio_stream" />
+    <button
+      id="display_stream"
+      style="display: none; position: absolute; bottom: 5px; right: 5px"
+    >
+      show stream
+    </button>
+    <div
+      id="audio_stream"
+      style="
+        height: 50px;
+        width: 50px;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+      "
+    />
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
     <script type="text/javascript">
-      var options = {
+      let streamShown = true;
+      const options = {
         width: '100%',
         height: '100%',
         channel: 'pbdj3000',
+        autoplay: 'false',
+        muted: 'false',
         parent: ['facetoface.vercel.app'],
       };
-      var player = new Twitch.Player('audio_stream', options);
-      player.setMuted(false);
+      const player = new Twitch.Player('audio_stream', options);
+      player.addEventListener(Twitch.Player.PLAY, function () {
+        document.getElementById('audio_stream').style.display = 'none';
+        document.getElementById('audio_stream').style.removeProperty('top');
+        document.getElementById('audio_stream').style.bottom = '30px';
+        document.getElementById('audio_stream').style.right = '5px';
+        document.getElementById('display_stream').style.display = 'block';
+        streamShown = false;
+      });
+
+      const displayStreamButton = document.getElementById('display_stream');
+
+      displayStreamButton.addEventListener('click', function () {
+        streamShown = !streamShown;
+        document.getElementById('audio_stream').style.display = streamShown
+          ? 'block'
+          : 'none';
+        displayStreamButton.textContent = streamShown
+          ? 'hide stream'
+          : 'show stream';
+      });
     </script>
   </body>
 </html>
