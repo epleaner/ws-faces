@@ -30,9 +30,9 @@ let s = function (p) {
 
   let params = {
     ascii: false,
-    zoom: true,
+    zoom: false,
     chaos: false,
-    fireworks: true,
+    fireworks: false,
     color: [p.random(0, 255), p.random(0, 255), p.random(0, 255)],
   };
 
@@ -68,18 +68,16 @@ let s = function (p) {
 
       drawKeypoints(keypoints, params.color);
 
-      // if (wsConnected) {
-      //   let { keypoints, skeleton, score, ...data } = poses[0].pose;
-
-      //   ws.send(
-      //     JSON.stringify({
-      //       type: 'bodyCoordinates',
-      //       id: ws.id,
-      //       color: params.color,
-      //       positions: data,
-      //     })
-      //   );
-      // }
+      if (wsConnected) {
+        ws.send(
+          JSON.stringify({
+            type: 'facemeshCoordinates',
+            id: ws.id,
+            color: params.color,
+            positions: keypoints,
+          })
+        );
+      }
     }
 
     drawStatus();
@@ -107,13 +105,13 @@ let s = function (p) {
   function setupWs() {
     maxLog('Attempting to establish ws connection');
 
-    const url = 'localhost';
-    const port = 3030;
-    const protocol = 'ws';
+    // const url = 'localhost';
+    // const port = 3030;
+    // const protocol = 'ws';
 
-    // const url = 'ws-fun.herokuapp.com/';
-    // const port = 80;
-    // const protocol = 'wss';
+    const url = 'ws-fun.herokuapp.com/';
+    const port = 80;
+    const protocol = 'wss';
 
     const wsUrl = `${protocol}://${url}:${port}`;
 
@@ -128,6 +126,8 @@ let s = function (p) {
       const data = JSON.parse(event.data);
 
       if (data.type === 'id') ws.id = data.id;
+      else if (data.type === 'facemeshCoordinates')
+        drawKeypoints(data.positions, data.color);
     };
   }
 
