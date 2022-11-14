@@ -12,9 +12,7 @@ try {
 }
 
 const httpServer = http.createServer();
-console.log(process.env.PORT);
-console.log(process.env.WS_PORT);
-const wsPort = process.env.PORT || 3030;
+const wsPort = process.env.WS_PORT || 3030;
 
 httpServer.listen(wsPort, function () {
   console.log('listening on port ' + wsPort);
