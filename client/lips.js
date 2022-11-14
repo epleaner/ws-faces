@@ -161,7 +161,9 @@ let lipsSketch = function (p) {
 
     if (positions) {
       drawFace(positions, drawColor);
+      sketchData.upperLipX = positions[60][0];
       sketchData.upperLipY = positions[60][1];
+      sketchData.lowerLipX = positions[57][0];
       sketchData.lowerLipY = positions[57][1];
 
       ws.send(
@@ -170,7 +172,9 @@ let lipsSketch = function (p) {
           id: ws.id,
           drawColor,
           positions,
+          upperLipX: positions[60][0],
           upperLipY: positions[60][1],
+          lowerLipX: positions[57][0],
           lowerLipY: positions[57][1],
         })
       );
