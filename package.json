@@ -1,8 +1,9 @@
 {
   "name": "wstesting",
   "version": "1.0.0",
-  "main": "page_connect.js",
+  "main": "ws_server.js",
   "scripts": {
+    "start": "node ws_server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "http-server -c-1",
     "serve-ssl": "http-server -c-1 --ssl -C cert.pem"
