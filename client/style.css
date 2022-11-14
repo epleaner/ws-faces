@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  background: #aaaaff;
 }
 body {
   margin: 0;
@@ -8,4 +9,25 @@ body {
 
   justify-content: center;
   align-items: center;
+}
+
+#audio-stream {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+}
+
+#display-stream {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+#sketch-buttons-wrapper {
+  display: none;
+}
+#sketch-buttons-wrapper button {
+  margin: 20px;
 }

@@ -17,7 +17,7 @@ function detectMax() {
 let maxIsDetected = detectMax();
 let gui;
 
-let s = function (p) {
+let faceMeshSketch = function (p) {
   let ws;
   let wsConnected = false;
 
@@ -218,4 +218,6 @@ let s = function (p) {
   }
 };
 
-let myp5 = new p5(s);
+const startFaceMesh = function () {
+  return new p5(faceMeshSketch, document.getElementById('p5sketch'));
+};

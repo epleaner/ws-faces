@@ -8,7 +8,7 @@ function detectMax() {
   return false;
 }
 
-let s = function (p) {
+let faceSketch = function (p) {
   let ws;
   let wsConnected = false;
 
@@ -194,4 +194,6 @@ let s = function (p) {
   };
 };
 
-let myp5 = new p5(s);
+const startFace = function () {
+  return new p5(faceSketch, document.getElementById('p5sketch'));
+};

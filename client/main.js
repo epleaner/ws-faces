@@ -1,10 +1,18 @@
 const loadFaceButton = document.querySelector('#load-face-button');
 const loadMeshButton = document.querySelector('#load-mesh-button');
 
+let sketch;
+
+function onButtonClick() {
+  document.querySelector('#sketch-buttons-wrapper').style.display = 'none';
+}
+
 loadFaceButton.addEventListener('click', () => {
-  startFace();
+  onButtonClick();
+  sketch = startFace();
 });
 
 loadMeshButton.addEventListener('click', () => {
-  startFaceMesh();
+  onButtonClick();
+  sketch = startFaceMesh();
 });
