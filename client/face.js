@@ -85,16 +85,11 @@ let faceSketch = function (p) {
   }
 
   async function setupWs() {
-    console.log('Attempting to establish ws connection');
+    const wsUrl = window.location.href.includes('facetoface.vercel.app')
+      ? `wss://ws-fun.herokuapp.com/`
+      : `ws://localhost:3030`;
 
-    // const url = 'localhost';
-    // const port = 3030;
-    // const protocol = 'ws';
-
-    const url = 'ws-fun.herokuapp.com/';
-    const protocol = 'wss';
-
-    const wsUrl = `${protocol}://${url}`;
+    console.log('Attempting to establish ws connection with', wsUrl);
 
     ws = new WebSocket(wsUrl);
 
