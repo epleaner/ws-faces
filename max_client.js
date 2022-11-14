@@ -14,9 +14,9 @@ const localConfig = {
   wsPort: '3030',
 };
 
-const { protocol, host, wsPort } = localConfig;
+const { protocol, host, wsPort } = remoteConfig;
 
-const wsUrl = `${protocol}://${host}:${wsPort}`;
+const wsUrl = `${protocol}://${host}`;
 
 console.log('Attempting to establish ws connection');
 
@@ -40,7 +40,12 @@ const connect = () => {
       case 'lipCoordinates': {
         data.positions = Object.assign({}, data.positions);
         coordinates[data.id] = {
-          positions: { upperLipY: data.upperLipY, lowerLipY: data.lowerLipY },
+          positions: {
+            upperLipX: data.upperLipX,
+            upperLipY: data.upperLipY,
+            lowerLipX: data.lowerLipX,
+            lowerLipY: data.lowerLipY,
+          },
           type: 'lipCoordinates',
         };
         Max.outlet({ type: 'coordinates', data: coordinates });
@@ -62,6 +67,20 @@ const connect = () => {
         coordinates[data.id] = {
           positions: data.positions,
           type: 'bodyCoordinates',
+        };
+
+        Max.outlet({
+          type: 'coordinates',
+          data: coordinates,
+        });
+        break;
+      }
+      case 'facemeshCoordinates': {
+        data.positions = Object.assign({}, data.positions);
+
+        coordinates[data.id] = {
+          positions: data.positions,
+          type: 'facemeshCoordinates',
         };
 
         Max.outlet({

@@ -14,6 +14,11 @@ function detectMax() {
   return false;
 }
 
+function maxLog(s) {
+  if (maxIsDetected) window.max.outlet(s);
+  console.log(s);
+}
+
 let maxIsDetected = detectMax();
 let gui;
 
@@ -84,14 +89,14 @@ let faceMeshSketch = function (p) {
   };
 
   function setupTracking() {
-    maxLog('setting up tracking');
+    console.log('setting up tracking');
 
     video = p.createCapture(p.VIDEO);
     video.size(p.width, p.height);
 
     model = ml5.facemesh(video, () => {
       modelReady = true;
-      maxLog('Model ready!');
+      console.log('Model ready!');
       p.background(0);
     });
 
@@ -103,23 +108,17 @@ let faceMeshSketch = function (p) {
   }
 
   function setupWs() {
-    maxLog('Attempting to establish ws connection');
+    const wsUrl = window.location.href.includes('facetoface.vercel.app')
+      ? `wss://ws-fun.herokuapp.com/`
+      : `ws://localhost:3030`;
 
-    // const url = 'localhost';
-    // const port = 3030;
-    // const protocol = 'ws';
-
-    const url = 'ws-fun.herokuapp.com/';
-    const port = 80;
-    const protocol = 'wss';
-
-    const wsUrl = `${protocol}://${url}:${port}`;
+    console.log('Attempting to establish ws connection with', wsUrl);
 
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       wsConnected = true;
-      maxLog('ws connection established');
+      console.log('ws connection established');
     };
 
     ws.onmessage = (event) => {
@@ -129,11 +128,6 @@ let faceMeshSketch = function (p) {
       else if (data.type === 'facemeshCoordinates')
         drawKeypoints(data.positions, data.color);
     };
-  }
-
-  function maxLog(s) {
-    if (maxIsDetected) window.max.outlet(s);
-    console.log(s);
   }
 
   p.windowResized = function () {
@@ -178,7 +172,7 @@ let faceMeshSketch = function (p) {
   }
 
   p.mouseClicked = function () {
-    maxLog(predictions);
+    console.log(predictions);
   };
 
   function scaleFromCenter() {

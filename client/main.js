@@ -1,5 +1,7 @@
+const loadLipsButton = document.querySelector('#load-lips-button');
 const loadFaceButton = document.querySelector('#load-face-button');
-const loadMeshButton = document.querySelector('#load-mesh-button');
+const loadHandButton = document.querySelector('#load-hand-button');
+const loadBodyButton = document.querySelector('#load-body-button');
 
 let sketch, selectedSketch;
 
@@ -9,20 +11,35 @@ function onSketchButtonClick(sketchName) {
   selectedSketch = sketchName;
 }
 
-loadFaceButton.addEventListener('click', () => {
+loadLipsButton.addEventListener('click', () => {
   onSketchButtonClick('lips');
 });
 
-loadMeshButton.addEventListener('click', () => {
-  onSketchButtonClick('mesh');
+loadFaceButton.addEventListener('click', () => {
+  onSketchButtonClick('face');
+});
+
+loadHandButton.addEventListener('click', () => {
+  onSketchButtonClick('hand');
+});
+
+loadBodyButton.addEventListener('click', () => {
+  onSketchButtonClick('body');
 });
 
 function loadSketch() {
   switch (selectedSketch) {
     case 'lips':
-      startFace();
+      startLips();
       break;
-    case 'mesh':
+    case 'face':
       startFaceMesh();
+      break;
+    case 'hand':
+      startHand();
+      break;
+    case 'body':
+      startBody();
+      break;
   }
 }

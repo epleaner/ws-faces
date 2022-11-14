@@ -8,22 +8,16 @@ function detectMax() {
   return false;
 }
 
-let s = function (p) {
+let bodySketch = function (p) {
   let ws;
   let wsConnected = false;
 
   function setupWs() {
-    console.log('Attempting to establish ws connection');
+    const wsUrl = window.location.href.includes('facetoface.vercel.app')
+      ? `wss://ws-fun.herokuapp.com/`
+      : `ws://localhost:3030`;
 
-    const url = 'localhost';
-    const port = 3030;
-    const protocol = 'ws';
-
-    // const url = 'ws-fun.herokuapp.com/';
-    // const port = 80;
-    // const protocol = 'wss';
-
-    const wsUrl = `${protocol}://${url}:${port}`;
+    console.log('Attempting to establish ws connection with', wsUrl);
 
     ws = new WebSocket(wsUrl);
 
@@ -167,4 +161,6 @@ let s = function (p) {
   };
 };
 
-let myp5 = new p5(s);
+const startBody = function () {
+  return new p5(bodySketch, document.getElementById('p5sketch'));
+};
