@@ -84,16 +84,20 @@ let faceSketch = function (p) {
     video.hide();
   }
 
-  function setupWs() {
+  async function setupWs() {
     console.log('Attempting to establish ws connection');
 
     // const url = 'localhost';
     // const port = 3030;
     // const protocol = 'ws';
 
+    const remotePort = await fetch('https://ws-fun.herokuapp.com/port');
+
+    console.log(remotePort);
+
     const url = 'ws-fun.herokuapp.com/';
     const protocol = 'wss';
-    const port = 53468;
+    const port = 48754;
 
     const wsUrl = `${protocol}://${url}:${port}`;
 

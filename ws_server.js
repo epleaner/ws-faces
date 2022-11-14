@@ -12,6 +12,10 @@ try {
 }
 
 const httpServer = http.createServer((req, res) => {
+  res.set(
+    'Access-Control-Allow-Origin',
+    'facetoface.vercel.app, http://localhost:3000'
+  );
   res.writeHead(200, { 'Content-Type': 'text/html' });
 
   if (req.url === '/port') {
