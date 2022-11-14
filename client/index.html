@@ -15,11 +15,12 @@
     <meta charset="utf-8" />
   </head>
   <body>
-    <button id="display-stream">show stream</button>
-    <div id="audio-stream"></div>
-    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
-    <script src="stream.js"></script>
-
+    <div id="stream-wrapper">
+      <button id="show-stream">show stream</button>
+      <div id="audio-stream"></div>
+      <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+      <button id="no-audio-button">continue without audio</button>
+    </div>
     <div>
       <div id="sketch-buttons-wrapper">
         <button id="load-face-button">face</button>
@@ -29,5 +30,6 @@
     </div>
 
     <script src="main.js"></script>
+    <script src="stream.js"></script>
   </body>
 </html>

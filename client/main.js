@@ -1,18 +1,28 @@
 const loadFaceButton = document.querySelector('#load-face-button');
 const loadMeshButton = document.querySelector('#load-mesh-button');
 
-let sketch;
+let sketch, selectedSketch;
 
-function onButtonClick() {
+function onSketchButtonClick(sketchName) {
   document.querySelector('#sketch-buttons-wrapper').style.display = 'none';
+  document.querySelector('#stream-wrapper').style.display = 'flex';
+  selectedSketch = sketchName;
 }
 
 loadFaceButton.addEventListener('click', () => {
-  onButtonClick();
-  sketch = startFace();
+  onSketchButtonClick('lips');
 });
 
 loadMeshButton.addEventListener('click', () => {
-  onButtonClick();
-  sketch = startFaceMesh();
+  onSketchButtonClick('mesh');
 });
+
+function loadSketch() {
+  switch (selectedSketch) {
+    case 'lips':
+      startFace();
+      break;
+    case 'mesh':
+      startFaceMesh();
+  }
+}
