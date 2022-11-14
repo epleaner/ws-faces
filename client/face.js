@@ -87,13 +87,13 @@ let faceSketch = function (p) {
   function setupWs() {
     console.log('Attempting to establish ws connection');
 
-    const url = 'localhost';
-    const port = 3030;
-    const protocol = 'ws';
+    // const url = 'localhost';
+    // const protocol = 'ws';
 
-    // const url = 'ws-fun.herokuapp.com/';
-    // const port = 80;
-    // const protocol = 'wss';
+    const url = 'ws-fun.herokuapp.com/';
+    const protocol = 'wss';
+
+    const port = 3030;
 
     const wsUrl = `${protocol}://${url}:${port}`;
 
