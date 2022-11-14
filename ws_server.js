@@ -11,7 +11,14 @@ try {
   console.log('No max');
 }
 
-const httpServer = http.createServer();
+const httpServer = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+
+  if (req.url === '/port') {
+    res.write(process.env.PORT);
+    res.end();
+  }
+});
 const wsPort = process.env.PORT || 3030;
 
 httpServer.listen(wsPort, function () {
