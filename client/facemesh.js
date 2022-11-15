@@ -37,7 +37,7 @@ let faceMeshSketch = function (p) {
     ascii: false,
     zoom: false,
     chaos: false,
-    fireworks: false,
+    rainbow: false,
     color: [p.random(0, 255), p.random(0, 255), p.random(0, 255)],
   };
 
@@ -70,6 +70,9 @@ let faceMeshSketch = function (p) {
     if (predictions.length) {
       if (params.zoom) keypoints = scaleFromCenter();
       else keypoints = predictions[0].scaledMesh;
+
+      if (params.rainbow)
+        params.color = [p.random(0, 255), p.random(0, 255), p.random(0, 255)];
 
       drawKeypoints(keypoints, params.color);
 
@@ -210,6 +213,10 @@ let faceMeshSketch = function (p) {
       )
       .map((xy) => xy / predictions[0].scaledMesh.length);
   }
+
+  p.mouseClicked = function () {
+    params.color = [p.random(0, 255), p.random(0, 255), p.random(0, 255)];
+  };
 };
 
 const startFaceMesh = function () {
