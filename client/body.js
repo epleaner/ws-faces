@@ -80,7 +80,7 @@ let bodySketch = function (p) {
     video = p.createCapture(p.VIDEO);
     video.size(p.width, p.height);
 
-    poseNet = ml5.poseNet(video, () => {
+    poseNet = ml5.poseNet(video, { flipHorizontal: true }, () => {
       posenetReady = true;
       console.log('Posenet model ready!');
       p.background(0);

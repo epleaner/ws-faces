@@ -79,7 +79,7 @@ let handSketch = function (p) {
     video = p.createCapture(p.VIDEO);
     video.size(p.width, p.height);
 
-    handpose = ml5.handpose(video, () => {
+    handpose = ml5.handpose(video, { flipHorizontal: true }, () => {
       handposeReady = true;
       console.log('Handpose model ready!');
       p.background(0);

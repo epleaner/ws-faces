@@ -50,7 +50,7 @@ let faceMeshSketch = function (p) {
     scaleMax = 7;
 
   p.setup = function () {
-    p.createCanvas(innerWidth, innerHeight);
+    p.createCanvas(window.innerWidth, window.innerHeight);
 
     setupTracking();
 
