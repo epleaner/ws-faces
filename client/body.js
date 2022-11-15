@@ -30,6 +30,10 @@ let bodySketch = function (p) {
       const data = JSON.parse(event.data);
 
       if (data.type === 'id') ws.id = data.id;
+      else if (data.type === 'bodyCoordinates') {
+        drawKeypoints(data.positions, data.drawColor);
+        drawSkeleton(data.skeleton, data.drawColor);
+      }
     };
   }
 
@@ -91,19 +95,12 @@ let bodySketch = function (p) {
 
   // A function to draw ellipses over the detected keypoints
   function drawKeypoints(points, { r, g, b }) {
-    // Loop through all the poses detected
-    for (let i = 0; i < points.length; i++) {
-      // For each pose detected, loop through all the keypoints
-      let pose = points[i].pose;
-      for (let j = 0; j < pose.keypoints.length; j++) {
-        // A keypoint is an object describing a body part (like rightArm or leftShoulder)
-        let keypoint = pose.keypoints[j];
-        // Only draw an ellipse is the pose probability is bigger than 0.2
-        if (keypoint.score > 0.2) {
-          p.fill(r, g, b);
-          p.noStroke();
-          p.ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
-        }
+    for (const pt in points) {
+      const { x, y, confidence } = points[pt];
+      if (confidence > 0.2) {
+        p.fill(r, g, b);
+        p.noStroke();
+        p.ellipse(x, y, 5, 5);
       }
     }
   }
@@ -131,18 +128,19 @@ let bodySketch = function (p) {
     p.background(0, 25);
 
     if (poses.length) {
-      drawKeypoints(poses, drawColor);
+      let { keypoints, skeleton, score, ...data } = poses[0].pose;
+
+      drawKeypoints(data, drawColor);
       drawSkeleton(poses, drawColor);
 
       if (wsConnected) {
-        let { keypoints, skeleton, score, ...data } = poses[0].pose;
-
         ws.send(
           JSON.stringify({
             type: 'bodyCoordinates',
             id: ws.id,
             drawColor,
             positions: data,
+            skeleton,
           })
         );
       }
@@ -157,7 +155,10 @@ let bodySketch = function (p) {
   };
 
   p.mouseClicked = function () {
-    console.log(poses);
+    if (poses.length) {
+      let { keypoints, skeleton, score, ...data } = poses[0].pose;
+      console.log(keypoints, skeleton, data);
+    }
   };
 };
 

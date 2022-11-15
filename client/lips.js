@@ -21,7 +21,6 @@ let lipsSketch = function (p) {
   let video;
   let currentPositions;
   let lastPositions;
-  let sketchData = {};
 
   let drawColor;
 
@@ -107,22 +106,19 @@ let lipsSketch = function (p) {
     };
   }
 
+  function makeCurve(a, positions) {
+    p.beginShape();
+    p.curveVertex(positions[a[0]][0], positions[a[0]][1]);
+    a.map((i) => p.curveVertex(positions[i][0], positions[i][1]));
+    p.curveVertex(positions[a[a.length - 1]][0], positions[a[a.length - 1]][1]);
+    p.endShape();
+  }
+
   function drawFace(positions, { r, g, b }) {
     p.noFill();
     p.stroke(r, g, b);
 
     if (positions) {
-      const makeCurve = (a) => {
-        p.beginShape();
-        p.curveVertex(positions[a[0]][0], positions[a[0]][1]);
-        a.map((i) => p.curveVertex(positions[i][0], positions[i][1]));
-        p.curveVertex(
-          positions[a[a.length - 1]][0],
-          positions[a[a.length - 1]][1]
-        );
-        p.endShape();
-      };
-
       // head
       // makeCurve([
       //   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 22, 21,
@@ -130,18 +126,21 @@ let lipsSketch = function (p) {
       // ]);
 
       // lips
-      makeCurve([44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 44]);
-      makeCurve([50, 59, 60, 61, 44, 56, 57, 58, 50]);
+      makeCurve(
+        [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 44],
+        positions
+      );
+      makeCurve([50, 59, 60, 61, 44, 56, 57, 58, 50], positions);
 
       // eyes
-      // makeCurve([30, 68, 29, 67, 28, 70, 31, 69, 30]);
-      // makeCurve([23, 63, 24, 64, 25, 65, 26, 66, 23]);
+      // makeCurve([30, 68, 29, 67, 28, 70, 31, 69, 30], positions);
+      // makeCurve([23, 63, 24, 64, 25, 65, 26, 66, 23], positions);
       // p.circle(positions[27][0], positions[27][1], 3);
       // p.circle(positions[32][0], positions[32][1], 3);
 
       // // nose
-      // makeCurve([34, 35, 36, 42, 37, 36]);
-      // makeCurve([40, 39, 38, 43, 37, 38]);
+      // makeCurve([34, 35, 36, 42, 37, 36], positions);
+      // makeCurve([40, 39, 38, 43, 37, 38], positions);
 
       if (p.keyIsDown(49)) {
         for (let ps in positions) {
@@ -161,10 +160,6 @@ let lipsSketch = function (p) {
 
     if (positions) {
       drawFace(positions, drawColor);
-      sketchData.upperLipX = positions[60][0];
-      sketchData.upperLipY = positions[60][1];
-      sketchData.lowerLipX = positions[57][0];
-      sketchData.lowerLipY = positions[57][1];
 
       ws.send(
         JSON.stringify({
@@ -183,12 +178,6 @@ let lipsSketch = function (p) {
     p.noStroke();
     wsConnected ? p.fill('green') : p.fill('red');
     p.circle(25, 25, 5);
-
-    if (maxIsDetected) {
-      window.max.outlet('status', p.frameCount, p.mouseIsPressed);
-      window.max.setDict('sketch_data', sketchData);
-      window.max.outlet('sketch_data_updated');
-    }
   };
 };
 

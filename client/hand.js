@@ -30,6 +30,9 @@ let handSketch = function (p) {
       const data = JSON.parse(event.data);
 
       if (data.type === 'id') ws.id = data.id;
+      else if (data.type === 'handCoordinates') {
+        drawKeypoints(data.landmarks, data.drawColor);
+      }
     };
   }
 
@@ -93,15 +96,13 @@ let handSketch = function (p) {
   }
 
   // A function to draw ellipses over the detected keypoints
-  function drawKeypoints(points, { r, g, b }) {
-    for (let i = 0; i < points.length; i += 1) {
-      const point = points[i];
-      for (let j = 0; j < point.landmarks.length; j += 1) {
-        const keypoint = point.landmarks[j];
-        p.fill(r, g, b);
-        p.noStroke();
-        p.ellipse(keypoint[0], keypoint[1], 10, 10);
-      }
+  function drawKeypoints(landmarks, { r, g, b }) {
+    p.fill(r, g, b);
+    p.noStroke();
+
+    for (let j = 0; j < landmarks.length; j++) {
+      const keypoint = landmarks[j];
+      p.ellipse(keypoint[0], keypoint[1], 10, 10);
     }
   }
 
@@ -109,7 +110,7 @@ let handSketch = function (p) {
     p.background(0, 25);
 
     if (positions.length) {
-      drawKeypoints(positions, drawColor);
+      drawKeypoints(positions[0].landmarks, drawColor);
 
       if (wsConnected) {
         let data = positions[0].annotations;
@@ -121,6 +122,7 @@ let handSketch = function (p) {
             id: ws.id,
             drawColor,
             positions: data,
+            landmarks: positions[0].landmarks,
           })
         );
       }
@@ -132,6 +134,12 @@ let handSketch = function (p) {
 
     p.fill('grey');
     if (!handposeReady) p.text('handpose loading...', 40, 28);
+  };
+
+  p.mouseClicked = function () {
+    if (positions.length) {
+      console.log(positions);
+    }
   };
 };
 
