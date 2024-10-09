@@ -6,10 +6,10 @@ v1_scaled = v2_scaled + cp; // translate the scaled vector back
 
 function detectMax() {
   try {
-    window.max.outlet('Hello Max!');
+    window.max.outlet("Hello Max!");
     return true;
   } catch (e) {
-    console.log('Max, where are you?');
+    console.log("Max, where are you?");
   }
   return false;
 }
@@ -55,11 +55,11 @@ let faceMeshSketch = function (p) {
     setupTracking();
 
     if (maxIsDetected)
-      document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+      document.getElementsByTagName("body")[0].style.overflow = "hidden";
 
-    gui = p.createGui(this, '🤖');
-    gui.setPosition(p.width - 250, 20);
-    gui.addObject(params);
+    // gui = p.createGui(this, '🤖');
+    // gui.setPosition(p.width - 250, 20);
+    // gui.addObject(params);
 
     p.background(0);
   };
@@ -79,7 +79,7 @@ let faceMeshSketch = function (p) {
       if (wsConnected) {
         ws.send(
           JSON.stringify({
-            type: 'facemeshCoordinates',
+            type: "facemeshCoordinates",
             id: ws.id,
             color: params.color,
             positions: keypoints,
@@ -92,18 +92,18 @@ let faceMeshSketch = function (p) {
   };
 
   function setupTracking() {
-    console.log('setting up tracking');
+    console.log("setting up tracking");
 
     video = p.createCapture(p.VIDEO);
     video.size(p.width, p.height);
 
     model = ml5.facemesh(video, () => {
       modelReady = true;
-      console.log('Model ready!');
+      console.log("Model ready!");
       p.background(0);
     });
 
-    model.on('predict', function (results) {
+    model.on("predict", function (results) {
       predictions = results;
     });
 
@@ -111,24 +111,24 @@ let faceMeshSketch = function (p) {
   }
 
   function setupWs() {
-    const wsUrl = window.location.href.includes('facetoface.vercel.app')
+    const wsUrl = window.location.href.includes("facetoface.vercel.app")
       ? `wss://ws-fun.herokuapp.com/`
       : `ws://localhost:3030`;
 
-    console.log('Attempting to establish ws connection with', wsUrl);
+    console.log("Attempting to establish ws connection with", wsUrl);
 
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
       wsConnected = true;
-      console.log('ws connection established');
+      console.log("ws connection established");
     };
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
 
-      if (data.type === 'id') ws.id = data.id;
-      else if (data.type === 'facemeshCoordinates')
+      if (data.type === "id") ws.id = data.id;
+      else if (data.type === "facemeshCoordinates")
         drawKeypoints(data.positions, data.color);
     };
   }
@@ -153,8 +153,8 @@ let faceMeshSketch = function (p) {
       if (params.ascii)
         p.text(
           p.random(
-            '!@#$%^&*((()_+⁄€‹›ﬁﬂ‡°·‚——±{}|?><¯˘¿œ∑´®†¥¨ˆøπåß∂ƒ©≈∫˜µåß∂ƒ©'.split(
-              ''
+            "!@#$%^&*((()_+⁄€‹›ﬁﬂ‡°·‚——±{}|?><¯˘¿œ∑´®†¥¨ˆøπåß∂ƒ©≈∫˜µåß∂ƒ©".split(
+              ""
             )
           ),
           x,
@@ -167,11 +167,11 @@ let faceMeshSketch = function (p) {
 
   function drawStatus() {
     p.noStroke();
-    wsConnected ? p.fill('green') : p.fill('red');
+    wsConnected ? p.fill("green") : p.fill("red");
     p.circle(25, 25, 5);
 
-    p.fill('grey');
-    if (!modelReady) p.text('loading...', 40, 28);
+    p.fill("grey");
+    if (!modelReady) p.text("loading...", 40, 28);
   }
 
   p.mouseClicked = function () {
@@ -220,5 +220,5 @@ let faceMeshSketch = function (p) {
 };
 
 const startFaceMesh = function () {
-  return new p5(faceMeshSketch, document.getElementById('p5sketch'));
+  return new p5(faceMeshSketch, document.getElementById("p5sketch"));
 };

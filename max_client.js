@@ -1,24 +1,24 @@
-const path = require('path');
-const Max = require('max-api');
-const WebSocket = require('ws');
+const path = require("path");
+const Max = require("max-api");
+const WebSocket = require("ws");
 
 const remoteConfig = {
-  protocol: 'wss',
-  host: 'ws-fun.herokuapp.com',
-  wsPort: '80',
+  protocol: "wss",
+  host: "ws-fun.herokuapp.com",
+  wsPort: "80",
 };
 
 const localConfig = {
-  protocol: 'ws',
-  host: 'localhost',
-  wsPort: '3030',
+  protocol: "ws",
+  host: "localhost",
+  wsPort: "3030",
 };
 
-const { protocol, host, wsPort } = remoteConfig;
+const { protocol, host, wsPort } = localConfig;
 
-const wsUrl = `${protocol}://${host}`;
+const wsUrl = `${protocol}://${host}:${wsPort}`;
 
-console.log('Attempting to establish ws connection');
+console.log("Attempting to establish ws connection");
 
 let wsConnected, ws;
 let restartInterval = 5000;
@@ -30,14 +30,14 @@ const connect = () => {
 
   ws.onopen = () => {
     wsConnected = true;
-    Max.post('ws connection established');
+    Max.post("ws connection established");
   };
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     switch (data.type) {
-      case 'lipCoordinates': {
+      case "lipCoordinates": {
         data.positions = Object.assign({}, data.positions);
         coordinates[data.id] = {
           positions: {
@@ -46,77 +46,77 @@ const connect = () => {
             lowerLipX: data.lowerLipX,
             lowerLipY: data.lowerLipY,
           },
-          type: 'lipCoordinates',
+          type: "lipCoordinates",
         };
-        Max.outlet({ type: 'coordinates', data: coordinates });
+        Max.outlet({ type: "coordinates", data: coordinates });
         break;
       }
-      case 'handCoordinates': {
+      case "handCoordinates": {
         coordinates[data.id] = {
           positions: data.positions,
-          type: 'handCoordinates',
+          type: "handCoordinates",
         };
 
         Max.outlet({
-          type: 'coordinates',
+          type: "coordinates",
           data: coordinates,
         });
         break;
       }
-      case 'bodyCoordinates': {
+      case "bodyCoordinates": {
         coordinates[data.id] = {
           positions: data.positions,
-          type: 'bodyCoordinates',
+          type: "bodyCoordinates",
         };
 
         Max.outlet({
-          type: 'coordinates',
+          type: "coordinates",
           data: coordinates,
         });
         break;
       }
-      case 'facemeshCoordinates': {
+      case "facemeshCoordinates": {
         data.positions = Object.assign({}, data.positions);
 
         coordinates[data.id] = {
           positions: data.positions,
-          type: 'facemeshCoordinates',
+          type: "facemeshCoordinates",
         };
 
         Max.outlet({
-          type: 'coordinates',
+          type: "coordinates",
           data: coordinates,
         });
         break;
       }
-      case 'clientConnected': {
-        Max.outlet({ type: 'clientConnected', data });
+      case "clientConnected": {
+        Max.outlet({ type: "clientConnected", data });
         break;
       }
-      case 'clientDisconnected': {
+      case "clientDisconnected": {
         delete coordinates[data.id];
-        Max.outlet({ type: 'clientDisconnected', data });
+        Max.outlet({ type: "clientDisconnected", data });
         break;
       }
-      case 'id': {
-        Max.outlet({ type: 'wsId', data });
+      case "id": {
+        Max.outlet({ type: "wsId", data });
         break;
       }
       default: {
-        Max.outlet({ type: 'unknownType', data });
+        Max.outlet({ type: "unknownType", data });
       }
     }
   };
 
   ws.onclose = () => {
-    Max.post('ws connected closed');
+    Max.post("ws connected closed");
 
     if (restartInterval != 0) setTimeout(connect, restartInterval);
     else process.exit(1);
   };
 
   ws.onerror = (err) => {
-    Max.post('ws error: ' + err.message);
+    Max.post("ws error: " + err.message);
     process.exit(1);
   };
 };
@@ -137,22 +137,22 @@ Max.post(`loaded ${path.basename(__filename)} script`);
 Max.post(`requesting ws connection to ${wsUrl}`);
 
 // Use the 'addHandler' function to register a function for a particular message
-Max.addHandler('bang', () => {
+Max.addHandler("bang", () => {
   Max.post(`Bang: ${new Date().toString()}`);
   sendMessage(`Bang: ${new Date().toString()}`);
 });
 
 // Use the 'outlet' function to send messages out of node.script's outlet
-Max.addHandler('echo', (msg) => {
+Max.addHandler("echo", (msg) => {
   Max.outlet(msg);
 });
 
-Max.addHandler('start', () => {
-  Max.post('Started');
+Max.addHandler("start", () => {
+  Max.post("Started");
 });
 
-Max.addHandler('list', (...msg) => {
-  Max.post('list', msg);
+Max.addHandler("list", (...msg) => {
+  Max.post("list", msg);
 
   // sendMessage(`Values: [${msg.join(', ')}]`);
 });
